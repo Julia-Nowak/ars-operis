@@ -159,6 +159,7 @@
       <div class="lang-switch">
         <button id="btn-pl" class="active" onclick="setLang('pl')">PL</button>
         <button id="btn-uk" onclick="setLang('uk')">UA</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
       </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -292,6 +293,28 @@ const translations = {
     cf2_h: "Транспортні компанії", cf2_p: "Підтримка у створенні та управлінні автопарком і командою водіїв.",
     cf3_h: "Нові напрямки бізнесу", cf3_p: "Формальні консультації для тих, хто планує вхід у сферу перевезень.",
     footer_tag: "Бюро водіїв · Трьохмістя"
+  },
+  en: {
+    tagline: "Drivers' Office",
+    nav_praca: "Driver Job",
+    nav_konsulting: "Consulting Services",
+    nav_onas: "About & Contact",
+    cons_eyebrow: "Consulting · Ars Operis",
+    cons_title: "Consulting services for companies and drivers",
+    cons_sub: "We support companies and individuals in growing their transport business — from setting up a fleet to day-to-day settlements.",
+    cons_h2: "What we do",
+    cons_li1: "Advice on setting up and running a car fleet",
+    cons_li2: "Cost and settlement optimisation for drivers and companies",
+    cons_li3: "Formal support for working with Uber / Bolt / Free Now platforms",
+    cons_li4: "Individual business consultations — arrange by phone",
+    call_now: "Call: +48 600 733 799",
+    whatsapp_write: "Message us on WhatsApp",
+    cons_for_title: "Who it's for",
+    cons_for_sub: "Ars Operis consulting suits both large companies and individual drivers.",
+    cf1_h: "Individual drivers", cf1_p: "We help you settle with platforms and optimise your car running costs.",
+    cf2_h: "Transport companies", cf2_p: "Support in building and managing a vehicle fleet and driver team.",
+    cf3_h: "New ventures", cf3_p: "Formal advice for those planning to enter the passenger transport industry.",
+    footer_tag: "Drivers' Office · Tricity"
   }
 };
 
@@ -306,12 +329,13 @@ function setLang(lang){
   });
   document.getElementById('btn-pl').classList.toggle('active', lang==='pl');
   document.getElementById('btn-uk').classList.toggle('active', lang==='uk');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
   localStorage.setItem('ars-operis-lang', lang);
 }
 
 (function(){
   const saved = localStorage.getItem('ars-operis-lang');
-  if(saved === 'uk') setLang('uk');
+  if(saved === 'uk' || saved === 'en') setLang(saved);
 })();
 
 const navToggle = document.getElementById('nav-toggle');

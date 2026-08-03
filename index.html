@@ -1,6 +1,596 @@
-&lt;!DOCTYPE html&gt;
-&lt;html lang="pl"&gt;
-&lt;head&gt;
-&lt;meta charset="UTF-8"&gt;
-&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-&lt;title&gt;Ars Operis — Praca Kierowcy Taxi w Trójmieście&lt;/title&gt;
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ars Operis — Praca Kierowcy Taxi w Trójmieście</title>
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-alt:#161616;
+    --gold:#ffffff;
+    --gold-soft:#d6d6d6;
+    --white:#f5f5f5;
+    --muted:#9a9a9a;
+    --whatsapp:#25D366;
+    --border:#2a2a2a;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:#0a0a0a;
+    border-bottom:1px solid #262626;
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+    gap:14px;position:relative;
+    padding:16px 24px;max-width:1100px;margin:0 auto;
+  }
+  .brand{
+    font-weight:800;letter-spacing:2px;font-size:clamp(1.4rem, 3vw, 2rem);
+    display:flex;flex-direction:column;line-height:1.1;
+    color:#f5f5f5;
+  }
+  .brand span{font-size:0.65rem;font-weight:500;letter-spacing:3px;color:#c9c9c9;text-transform:uppercase;}
+
+  .main-nav{display:flex;align-items:center;gap:30px;}
+  .main-nav a{
+    font-weight:600;font-size:0.92rem;color:#c2c2c2;
+    padding:6px 2px;border-bottom:2px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .main-nav a:hover{color:#fff;}
+  .main-nav a.active{color:#fff;border-bottom-color:#fff;}
+
+  .header-actions{display:flex;align-items:center;gap:14px;}
+
+  .nav-toggle{
+    display:none;background:none;border:1px solid #333;color:#f5f5f5;
+    width:38px;height:38px;border-radius:10px;
+    align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+  }
+
+  .lang-switch{display:flex;gap:6px;background:#1a1a1a;border:1px solid #333;border-radius:999px;padding:4px;}
+  .lang-switch button{
+    border:none;background:transparent;color:#b5b5b5;
+    font-weight:700;font-size:0.85rem;padding:6px 14px;border-radius:999px;cursor:pointer;
+    transition:all .2s ease;
+  }
+  .lang-switch button.active{background:#f5f5f5;color:#111;}
+
+  @media (max-width:860px){
+    .main-nav{
+      order:3;width:100%;display:none;flex-direction:column;align-items:flex-start;
+      gap:2px;padding-top:10px;border-top:1px solid #232323;
+    }
+    .main-nav.open{display:flex;}
+    .main-nav a{padding:10px 2px;width:100%;}
+    .nav-toggle{display:flex;}
+  }
+
+  /* Hero */
+  .hero{
+    position:relative;
+    padding:64px 0 40px;
+    background:#ffffff;
+  }
+  .hero .eyebrow{color:#3a3a3a;}
+  .hero h1{color:#111111;}
+  .hero .btn-call{background:#111111;color:#ffffff;box-shadow:0 6px 20px rgba(17,17,17,0.18);}
+  .hero .google-link{color:#5a5a5a;border-bottom-color:#d8d8d8;}
+  .hero .google-link:hover{color:#111111;border-bottom-color:#111111;}
+
+  #wymagania{background:#ffffff;}
+  #wymagania .section-title{color:#111111;}
+  #wymagania .section-sub{color:#4a4a4a;}
+
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:44px;align-items:start;}
+  .hero-content{
+    max-width:70ch;
+  }
+  .hero-mini{
+    background:#0a0a0a;border:1px solid #232323;border-radius:20px;
+    padding:28px;box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  }
+  .hero-mini h3{color:#f5f5f5;font-size:1.15rem;margin-bottom:6px;}
+  .hero-mini p{color:#9a9a9a;font-size:0.88rem;margin-bottom:18px;}
+  .hero-mini .form-field{margin-bottom:14px;}
+  .hero-mini .form-field label{display:block;font-size:0.8rem;color:#9a9a9a;margin-bottom:6px;font-weight:600;}
+  .hero-mini .form-field input{
+    width:100%;padding:11px 13px;border-radius:10px;border:1px solid #2a2a2a;
+    background:#141414;color:#f5f5f5;font-size:0.92rem;font-family:inherit;
+  }
+  .hero-mini .form-field input:focus{outline:none;border-color:#f5f5f5;}
+  .hero-mini .form-field input::placeholder{color:#6b6b6b;}
+  .hero-mini .consent-row{
+    display:flex;align-items:flex-start;gap:8px;color:#8a8a8a;font-size:0.76rem;
+    margin-bottom:16px;cursor:pointer;line-height:1.35;
+  }
+  .hero-mini .consent-row input{margin-top:2px;flex-shrink:0;}
+  .hero-mini .btn-submit{background:#f5f5f5;color:#111;}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+  }
+  .eyebrow{
+    color:var(--gold);font-weight:700;letter-spacing:2px;font-size:0.8rem;
+    text-transform:uppercase;margin-bottom:14px;display:block;
+  }
+  h1{
+    font-size:clamp(0.95rem, 5.2vw, 3.8rem);
+    font-weight:800;line-height:1.08;margin-bottom:20px;
+    letter-spacing:-0.5px;white-space:nowrap;
+  }
+  @media (min-width:861px){
+    h1{font-size:clamp(1.4rem, 3vw, 2rem);}
+  }
+  .hero p.lead{color:#111111;font-size:1.3rem;margin-bottom:28px;max-width:52ch;}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 22px;border-radius:999px;font-weight:700;font-size:0.95rem;
+    transition:transform .15s ease, box-shadow .15s ease;
+    cursor:pointer;white-space:nowrap;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-call{background:var(--gold);color:#111;box-shadow:0 6px 20px rgba(255,255,255,0.15);}
+  .btn-whatsapp{background:var(--whatsapp);color:#08210f;box-shadow:0 6px 20px rgba(37,211,102,0.25);}
+  .btn svg{width:20px;height:20px;flex-shrink:0;}
+
+  /* Sections */
+  section{padding:56px 0;}
+  .section-title{
+    font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;margin-bottom:8px;
+  }
+  .section-sub{color:var(--muted);margin-bottom:32px;max-width:60ch;}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .card{
+    background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;box-shadow:0 2px 14px rgba(0,0,0,0.35);
+  }
+  .card .icon{font-size:1.8rem;margin-bottom:14px;display:block;}
+  .card h3{font-size:1.05rem;margin-bottom:8px;font-weight:700;}
+  .card p{color:var(--muted);font-size:0.92rem;}
+  .card .highlight{color:var(--gold-soft);font-weight:800;font-size:1.15rem;}
+
+  .divider{height:1px;background:var(--border);margin:0;}
+
+  .form-panel{
+    background:var(--bg-alt);border:1px solid var(--border);border-radius:20px;
+    padding:40px;box-shadow:0 2px 18px rgba(0,0,0,0.4);
+  }
+  .lead-form{margin-top:24px;max-width:640px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .form-field label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:6px;font-weight:600;}
+  .form-field input, .form-field select{
+    width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);
+    background:var(--bg);color:var(--white);font-size:0.95rem;font-family:inherit;
+  }
+  .form-field input:focus, .form-field select:focus{outline:none;border-color:var(--gold);}
+  .form-field input::placeholder{color:#6b6b6b;}
+  .consent-row{
+    display:flex;align-items:flex-start;gap:10px;color:var(--muted);font-size:0.85rem;
+    margin-bottom:22px;cursor:pointer;
+  }
+  .consent-row input{margin-top:3px;flex-shrink:0;}
+  .btn-submit{
+    background:var(--gold);color:#111;border:none;width:100%;justify-content:center;
+    font-size:1rem;
+  }
+  .form-note{margin-top:14px;color:var(--muted);font-size:0.82rem;display:none;}
+  .form-note.visible{display:block;}
+
+  .google-link{
+    display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:var(--muted);
+    font-size:0.9rem;font-weight:600;border-bottom:1px solid var(--border);padding-bottom:2px;
+  }
+  .google-link:hover{color:var(--gold-soft);border-color:var(--gold-soft);}
+
+  footer{
+    border-top:1px solid var(--border);padding:36px 0;color:var(--muted);
+  }
+  .footer-inner{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  }
+  .footer-contact{display:flex;gap:18px;flex-wrap:wrap;}
+  .footer-contact a{font-weight:700;color:var(--white);}
+
+  .float-whatsapp{
+    position:fixed;bottom:22px;right:22px;z-index:60;
+    background:var(--whatsapp);width:58px;height:58px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  }
+  .float-whatsapp svg{width:28px;height:28px;color:#08210f;}
+
+  @media (max-width:860px){
+    .cards{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;align-items:flex-start;}
+    .form-row{grid-template-columns:1fr;}
+    .form-panel{padding:26px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="index.html">ARS OPERIS<span data-i18n="tagline">Biuro Kierowców</span></a>
+    <nav class="main-nav" id="main-nav">
+      <a href="index.html" class="active" data-i18n="nav_praca">Praca Kierowca</a>
+      <a href="uslugi-konsultingowe.html" data-i18n="nav_konsulting">Usługi Konsultingowe</a>
+      <a href="o-nas-kontakt.html" data-i18n="nav_onas">O nas i Kontakt</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-switch">
+        <button id="btn-pl" class="active" onclick="setLang('pl')">PL</button>
+        <button id="btn-uk" onclick="setLang('uk')">UA</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-content">
+      <span class="eyebrow" data-i18n="hero_eyebrow">Rekrutacja kierowców · Trójmiasto</span>
+      <h1 data-i18n="hero_title">Masz prawo jazdy kategorii B?</h1>
+      <p class="lead" data-i18n="hero_lead">Zostań kierowcą Uber / Bolt / Free Now na terenie Gdańska, Sopotu i Gdyni. Zapewniamy ekonomiczny samochód — Ty tylko jeździsz i zarabiasz.</p>
+      <div class="cta-row">
+        <a class="btn btn-call" href="tel:+48600733799">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.25 1.01z"/></svg>
+          <span data-i18n="call_now">Zadzwoń: +48 600 733 799</span>
+        </a>
+        <a class="btn btn-whatsapp" href="https://wa.me/48600733799" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.55a9.9 9.9 0 004.91 1.28c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.16c-.24.68-1.4 1.3-1.93 1.35-.5.05-1.1.07-1.78-.11-.4-.1-.93-.3-1.6-.6-2.82-1.22-4.66-4.05-4.8-4.24-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.57-.35.76-.35h.55c.18 0 .42-.02.64.5.24.58.82 2 .89 2.14.07.14.11.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.28.71 1.18 1.53 1.92 1.05.95 1.94 1.25 2.21 1.39.28.14.44.12.6-.07.16-.19.68-.8.87-1.07.18-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.46.21.53.33.07.12.07.71-.17 1.39z"/></svg>
+          <span data-i18n="whatsapp_write">Napisz na WhatsApp</span>
+        </a>
+      </div>
+      <a class="google-link" href="https://www.google.com/search?q=Biuro+Kierowcow+-+Ars+Operis" target="_blank" rel="noopener">
+        🔎 <span data-i18n="google_link">Znajdź nas w Google — Biuro Kierowców Ars Operis</span>
+      </a>
+    </div>
+
+    <div class="hero-mini">
+      <h3 data-i18n="mini_title">Zostaw numer, oddzwonimy</h3>
+      <p data-i18n="mini_sub">Wpisz imię i telefon — skontaktujemy się jeszcze dziś.</p>
+      <form class="lead-form" id="mini-lead-form">
+        <div class="form-field">
+          <label data-i18n="label_name">Imię</label>
+          <input type="text" name="name" required data-i18n-ph="ph_name" placeholder="Wpisz swoje imię">
+        </div>
+        <div class="form-field">
+          <label data-i18n="label_phone">Numer telefonu</label>
+          <input type="tel" name="phone" required data-i18n-ph="ph_phone" placeholder="Wpisz numer telefonu">
+        </div>
+        <div class="form-field">
+          <label data-i18n="label_email">Adres e-mail (opcjonalnie)</label>
+          <input type="email" name="email" data-i18n-ph="ph_email" placeholder="Wpisz swój e-mail">
+        </div>
+        <label class="consent-row">
+          <input type="checkbox" name="consent" required>
+          <span data-i18n="consent_text">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu kontaktu w sprawie oferty.</span>
+        </label>
+        <button type="submit" class="btn btn-submit">
+          <span data-i18n="mini_submit">Wyślij</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="oferta">
+  <div class="wrap">
+    <h2 class="section-title" data-i18n="offer_title">Oferta dla kierowców</h2>
+    <p class="section-sub" data-i18n="offer_sub">Praca elastyczna, samochód firmowy, uczciwe rozliczenia. Wystarczy prawo jazdy kategorii B.</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="icon">📍</span>
+        <h3 data-i18n="c1_h">Obszar pracy</h3>
+        <p data-i18n="c1_p">Gdańsk, Sopot, Gdynia — cały obszar Trójmiasta.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🚗</span>
+        <h3 data-i18n="c2_h">Samochód</h3>
+        <p data-i18n="c2_p">Ekonomiczny Peugeot 301 lub Skoda Fabia, na gaz, z klimatyzacją.</p>
+      </div>
+      <div class="card">
+        <span class="icon">⏱️</span>
+        <h3 data-i18n="c3_h">Grafik</h3>
+        <p data-i18n="c3_p">8–12 godzin dziennie, 5–6 dni w tygodniu — Ty ustalasz tempo.</p>
+      </div>
+      <div class="card">
+        <span class="icon">💰</span>
+        <h3 data-i18n="c4_h">Zarobki</h3>
+        <p class="highlight" data-i18n="c4_p">1000 – 2500 zł / tydzień</p>
+      </div>
+      <div class="card">
+        <span class="icon">📱</span>
+        <h3 data-i18n="c5_h">Platformy</h3>
+        <p data-i18n="c5_p">Praca za pośrednictwem Uber, Bolt i Free Now.</p>
+      </div>
+      <div class="card">
+        <span class="icon">✅</span>
+        <h3 data-i18n="c6_h">Wymagania</h3>
+        <p data-i18n="c6_p">Ważne prawo jazdy kategorii B — reszta po naszej stronie.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🔑</span>
+        <h3 data-i18n="c7_h">Samochód tylko dla Ciebie</h3>
+        <p data-i18n="c7_p">Samochód przydzielony wyłącznie Tobie na cały okres pracy — możesz korzystać z niego również prywatnie.</p>
+      </div>
+      <div class="card">
+        <span class="icon">💵</span>
+        <h3 data-i18n="c8_h">Wypłaty</h3>
+        <p data-i18n="c8_p">Wypłaty raz w tygodniu — gotówką w biurze lub przelewem/kartą.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="wymagania">
+  <div class="wrap">
+    <h2 class="section-title" data-i18n="req_title">Wymagania wobec kandydatów</h2>
+    <p class="section-sub" data-i18n="req_sub">Aby dołączyć, wystarczy spełnić trzy proste warunki.</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="icon">📅</span>
+        <h3 data-i18n="req1_h">Wiek</h3>
+        <p data-i18n="req1_p">Wiek od 20 lat.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🪪</span>
+        <h3 data-i18n="req2_h">Prawo jazdy</h3>
+        <p data-i18n="req2_p">Prawo jazdy kategorii B.</p>
+      </div>
+      <div class="card">
+        <span class="icon">💰</span>
+        <h3 data-i18n="req3_h">Kaucja</h3>
+        <p data-i18n="req3_p">Kaucja 500 zł.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="zgloszenie">
+  <div class="wrap">
+    <div class="form-panel">
+      <h2 class="section-title" data-i18n="form_title">Zostaw swoje dane</h2>
+      <p class="section-sub" data-i18n="form_sub" style="margin-bottom:0;">Oddzwonimy w ciągu kilku godzin i pomożemy Ci zacząć jeszcze dziś.</p>
+
+      <form class="lead-form" id="lead-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label data-i18n="label_name">Imię</label>
+            <input type="text" name="name" required data-i18n-ph="ph_name" placeholder="Wpisz swoje imię">
+          </div>
+          <div class="form-field">
+            <label data-i18n="label_phone">Numer telefonu</label>
+            <input type="tel" name="phone" required data-i18n-ph="ph_phone" placeholder="Wpisz numer telefonu">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label data-i18n="label_email">Adres e-mail (opcjonalnie)</label>
+            <input type="email" name="email" data-i18n-ph="ph_email" placeholder="Wpisz swój e-mail">
+          </div>
+          <div class="form-field">
+            <label data-i18n="label_city">Miasto</label>
+            <select name="city">
+              <option value="Gdańsk" data-i18n="city_gdansk">Gdańsk</option>
+              <option value="Sopot" data-i18n="city_sopot">Sopot</option>
+              <option value="Gdynia" data-i18n="city_gdynia">Gdynia</option>
+              <option value="Inne" data-i18n="city_other">Inne</option>
+            </select>
+          </div>
+        </div>
+        <label class="consent-row">
+          <input type="checkbox" name="consent" required>
+          <span data-i18n="consent_text">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu kontaktu w sprawie oferty.</span>
+        </label>
+        <button type="submit" class="btn btn-submit">
+          <span data-i18n="submit_btn">Wyślij zgłoszenie przez WhatsApp</span>
+        </button>
+        <p class="form-note" id="form-note" data-i18n="form_note">Po kliknięciu otworzy się WhatsApp z gotową wiadomością do wysłania.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <div class="brand" style="margin-bottom:6px;">ARS OPERIS</div>
+      <div data-i18n="footer_tag">Biuro Kierowców · Trójmiasto</div>
+    </div>
+    <div class="footer-contact">
+      <a href="tel:+48600733799">📞 +48 600 733 799</a>
+      <a href="https://wa.me/48600733799" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<a class="float-whatsapp" href="https://wa.me/48600733799" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.55a9.9 9.9 0 004.91 1.28c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.16c-.24.68-1.4 1.3-1.93 1.35-.5.05-1.1.07-1.78-.11-.4-.1-.93-.3-1.6-.6-2.82-1.22-4.66-4.05-4.8-4.24-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.57-.35.76-.35h.55c.18 0 .42-.02.64.5.24.58.82 2 .89 2.14.07.14.11.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.28.71 1.18 1.53 1.92 1.05.95 1.94 1.25 2.21 1.39.28.14.44.12.6-.07.16-.19.68-.8.87-1.07.18-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.46.21.53.33.07.12.07.71-.17 1.39z"/></svg>
+</a>
+
+<script>
+const translations = {
+  pl: {
+    tagline: "Biuro Kierowców",
+    nav_praca: "Praca Kierowca",
+    nav_konsulting: "Usługi Konsultingowe",
+    nav_onas: "O nas i Kontakt",
+    hero_eyebrow: "Rekrutacja kierowców · Trójmiasto",
+    hero_title: "Masz prawo jazdy kategorii B?",
+    hero_lead: "Zostań kierowcą Uber / Bolt / Free Now na terenie Gdańska, Sopotu i Gdyni. Zapewniamy ekonomiczny samochód — Ty tylko jeździsz i zarabiasz.",
+    call_now: "Zadzwoń: +48 600 733 799",
+    whatsapp_write: "Napisz na WhatsApp",
+    offer_title: "Oferta dla kierowców",
+    offer_sub: "Praca elastyczna, samochód firmowy, uczciwe rozliczenia. Wystarczy prawo jazdy kategorii B.",
+    c1_h: "Obszar pracy", c1_p: "Gdańsk, Sopot, Gdynia — cały obszar Trójmiasta.",
+    c2_h: "Samochód", c2_p: "Ekonomiczny Peugeot 301 lub Skoda Fabia, na gaz, z klimatyzacją.",
+    c3_h: "Grafik", c3_p: "8–12 godzin dziennie, 5–6 dni w tygodniu — Ty ustalasz tempo.",
+    c4_h: "Zarobki", c4_p: "1000 – 2500 zł / tydzień",
+    c5_h: "Platformy", c5_p: "Praca za pośrednictwem Uber, Bolt i Free Now.",
+    c6_h: "Wymagania", c6_p: "Ważne prawo jazdy kategorii B — reszta po naszej stronie.",
+    c7_h: "Samochód tylko dla Ciebie", c7_p: "Samochód przydzielony wyłącznie Tobie na cały okres pracy — możesz korzystać z niego również prywatnie.",
+    c8_h: "Wypłaty", c8_p: "Wypłaty raz w tygodniu — gotówką w biurze lub przelewem/kartą.",
+    req_title: "Wymagania wobec kandydatów",
+    req_sub: "Aby dołączyć, wystarczy spełnić trzy proste warunki.",
+    req1_h: "Wiek", req1_p: "Wiek od 20 lat.",
+    req2_h: "Prawo jazdy", req2_p: "Prawo jazdy kategorii B.",
+    req3_h: "Kaucja", req3_p: "Kaucja 500 zł.",
+    footer_tag: "Biuro Kierowców · Trójmiasto",
+    google_link: "Znajdź nas w Google — Biuro Kierowców Ars Operis",
+    form_title: "Zostaw swoje dane",
+    form_sub: "Oddzwonimy w ciągu kilku godzin i pomożemy Ci zacząć jeszcze dziś.",
+    label_name: "Imię", ph_name: "Wpisz swoje imię",
+    label_phone: "Numer telefonu", ph_phone: "Wpisz numer telefonu",
+    label_email: "Adres e-mail (opcjonalnie)", ph_email: "Wpisz swój e-mail",
+    label_city: "Miasto",
+    city_gdansk: "Gdańsk", city_sopot: "Sopot", city_gdynia: "Gdynia", city_other: "Inne",
+    consent_text: "Wyrażam zgodę na przetwarzanie moich danych osobowych w celu kontaktu w sprawie oferty.",
+    submit_btn: "Wyślij zgłoszenie przez WhatsApp",
+    form_note: "Po kliknięciu otworzy się WhatsApp z gotową wiadomością do wysłania.",
+    form_alert_consent: "Zaznacz zgodę na przetwarzanie danych osobowych, aby wysłać zgłoszenie.",
+    mini_title: "Zostaw numer, oddzwonimy",
+    mini_sub: "Wpisz imię i telefon — skontaktujemy się jeszcze dziś.",
+    mini_submit: "Wyślij"
+  },
+  uk: {
+    tagline: "Бюро водіїв",
+    nav_praca: "Робота водія",
+    nav_konsulting: "Консалтингові послуги",
+    nav_onas: "Про нас і Контакт",
+    hero_eyebrow: "Набір водіїв · Трьохмістя",
+    hero_title: "Маєте посвідчення водія категорії B?",
+    hero_lead: "Станьте водієм Uber / Bolt / Free Now у Гданську, Сопоті та Гдині. Надаємо економічне авто — ви лише керуєте та заробляєте.",
+    call_now: "Дзвоніть: +48 600 733 799",
+    whatsapp_write: "Написати у WhatsApp",
+    offer_title: "Пропозиція для водіїв",
+    offer_sub: "Гнучкий графік, службове авто, чесні розрахунки. Потрібне лише посвідчення водія категорії B.",
+    c1_h: "Зона роботи", c1_p: "Гданськ, Сопот, Гдиня — вся агломерація Трьохмістя.",
+    c2_h: "Автомобіль", c2_p: "Економічний Peugeot 301 або Skoda Fabia, на газі, з кондиціонером.",
+    c3_h: "Графік", c3_p: "8–12 годин на день, 5–6 днів на тиждень — темп визначаєте ви.",
+    c4_h: "Заробіток", c4_p: "1000 – 2500 злотих / тиждень",
+    c5_h: "Платформи", c5_p: "Робота через Uber, Bolt та Free Now.",
+    c6_h: "Вимоги", c6_p: "Дійсне посвідчення водія категорії B — решту беремо на себе.",
+    c7_h: "Авто лише для тебе", c7_p: "Автомобіль закріплений виключно за тобою на весь період роботи — можеш використовувати його й особисто.",
+    c8_h: "Виплати", c8_p: "Виплати раз на тиждень — готівкою в офісі або на картку.",
+    req_title: "Вимоги до кандидатів",
+    req_sub: "Щоб приєднатися, достатньо виконати три прості умови.",
+    req1_h: "Вік", req1_p: "Вік від 20 років.",
+    req2_h: "Посвідчення водія", req2_p: "Посвідчення водія категорії B.",
+    req3_h: "Застава", req3_p: "Застава 500 злотих.",
+    footer_tag: "Бюро водіїв · Трьохмістя",
+    google_link: "Знайдіть нас у Google — Бюро водіїв Ars Operis",
+    form_title: "Залиште свої дані",
+    form_sub: "Ми передзвонимо протягом кількох годин і допоможемо почати вже сьогодні.",
+    label_name: "Ім'я", ph_name: "Введіть своє ім'я",
+    label_phone: "Номер телефону", ph_phone: "Введіть номер телефону",
+    label_email: "Електронна пошта (необов'язково)", ph_email: "Введіть свою електронну пошту",
+    label_city: "Місто",
+    city_gdansk: "Гданськ", city_sopot: "Сопот", city_gdynia: "Гдиня", city_other: "Інше",
+    consent_text: "Я даю згоду на обробку моїх персональних даних з метою зв'язку щодо пропозиції.",
+    submit_btn: "Надіслати заявку через WhatsApp",
+    form_note: "Після натискання відкриється WhatsApp з готовим повідомленням для надсилання.",
+    form_alert_consent: "Позначте згоду на обробку персональних даних, щоб надіслати заявку.",
+    mini_title: "Залиште номер, ми передзвонимо",
+    mini_sub: "Введіть ім'я та телефон — зв'яжемось сьогодні.",
+    mini_submit: "Надіслати"
+  }
+};
+
+let currentLang = 'pl';
+
+function setLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(translations[lang][key]) el.textContent = translations[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-ph');
+    if(translations[lang][key]) el.setAttribute('placeholder', translations[lang][key]);
+  });
+  document.getElementById('btn-pl').classList.toggle('active', lang==='pl');
+  document.getElementById('btn-uk').classList.toggle('active', lang==='uk');
+  localStorage.setItem('ars-operis-lang', lang);
+}
+
+(function(){
+  const saved = localStorage.getItem('ars-operis-lang');
+  if(saved === 'uk') setLang('uk');
+})();
+
+const navToggle = document.getElementById('nav-toggle');
+const mainNav = document.getElementById('main-nav');
+if(navToggle){
+  navToggle.addEventListener('click', function(){
+    const isOpen = mainNav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+}
+
+document.querySelectorAll('.lead-form').forEach(function(formEl){
+  formEl.addEventListener('submit', function(e){
+    e.preventDefault();
+    const data = new FormData(formEl);
+    if(!data.get('consent')){
+      alert(translations[currentLang].form_alert_consent);
+      return;
+    }
+    const name = data.get('name') || '';
+    const phone = data.get('phone') || '';
+    const email = data.get('email') || '';
+    const city = data.get('city') || '';
+
+    const message = currentLang === 'uk'
+      ? `Заявка з сайту Ars Operis:\nІм'я: ${name}\nТелефон: ${phone}${email ? `\nEmail: ${email}` : ''}${city ? `\nМісто: ${city}` : ''}`
+      : `Zgłoszenie ze strony Ars Operis:\nImię: ${name}\nTelefon: ${phone}${email ? `\nE-mail: ${email}` : ''}${city ? `\nMiasto: ${city}` : ''}`;
+
+    const noteEl = document.getElementById('form-note');
+    if(noteEl) noteEl.classList.add('visible');
+
+    const subject = currentLang === 'uk'
+      ? `Нова заявка з сайту Ars Operis — ${name}`
+      : `Nowe zgłoszenie ze strony Ars Operis — ${name}`;
+    const mailtoUrl = `mailto:biurokierowcow@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+
+    window.open(`https://wa.me/48600733799?text=${encodeURIComponent(message)}`, '_blank');
+    window.location.href = mailtoUrl;
+    formEl.reset();
+  });
+});
+</script>
+
+</body>
+</html>

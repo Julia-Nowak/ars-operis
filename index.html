@@ -245,6 +245,7 @@
       <div class="lang-switch">
         <button id="btn-pl" class="active" onclick="setLang('pl')">PL</button>
         <button id="btn-uk" onclick="setLang('uk')">UA</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
       </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -530,6 +531,48 @@ const translations = {
     mini_title: "Залиште номер, ми передзвонимо",
     mini_sub: "Введіть ім'я та телефон — зв'яжемось сьогодні.",
     mini_submit: "Надіслати"
+  },
+  en: {
+    tagline: "Drivers' Office",
+    nav_praca: "Driver Job",
+    nav_konsulting: "Consulting Services",
+    nav_onas: "About & Contact",
+    hero_eyebrow: "Driver recruitment · Tricity",
+    hero_title: "Got a category B driving licence?",
+    hero_lead: "Become an Uber / Bolt / Free Now driver in Gdańsk, Sopot and Gdynia. We provide an economical car — you just drive and earn.",
+    call_now: "Call: +48 600 733 799",
+    whatsapp_write: "Message us on WhatsApp",
+    offer_title: "Offer for drivers",
+    offer_sub: "Flexible work, company car, fair settlements. All you need is a category B driving licence.",
+    c1_h: "Work area", c1_p: "Gdańsk, Sopot, Gdynia — the whole Tricity area.",
+    c2_h: "Car", c2_p: "Economical Peugeot 301 or Skoda Fabia, LPG, air conditioning.",
+    c3_h: "Schedule", c3_p: "8–12 hours a day, 5–6 days a week — you set the pace.",
+    c4_h: "Earnings", c4_p: "1000 – 2500 PLN / week",
+    c5_h: "Platforms", c5_p: "Work through Uber, Bolt and Free Now.",
+    c6_h: "Requirements", c6_p: "Valid category B driving licence — we handle the rest.",
+    c7_h: "A car just for you", c7_p: "A car assigned exclusively to you for the whole work period — you can also use it privately.",
+    c8_h: "Payouts", c8_p: "Weekly payouts — cash at the office or by transfer/card.",
+    req_title: "Requirements for candidates",
+    req_sub: "Just meet three simple conditions to join.",
+    req1_h: "Age", req1_p: "Age 20+.",
+    req2_h: "Driving licence", req2_p: "Category B driving licence.",
+    req3_h: "Deposit", req3_p: "500 PLN deposit.",
+    footer_tag: "Drivers' Office · Tricity",
+    google_link: "Find us on Google — Ars Operis Drivers' Office",
+    form_title: "Leave your details",
+    form_sub: "We'll call you back within a few hours and help you start today.",
+    label_name: "Name", ph_name: "Enter your name",
+    label_phone: "Phone number", ph_phone: "Enter your phone number",
+    label_email: "Email address (optional)", ph_email: "Enter your email",
+    label_city: "City",
+    city_gdansk: "Gdańsk", city_sopot: "Sopot", city_gdynia: "Gdynia", city_other: "Other",
+    consent_text: "I consent to the processing of my personal data for the purpose of contact regarding the offer.",
+    submit_btn: "Send application via WhatsApp",
+    form_note: "Clicking will open WhatsApp with a ready-made message to send.",
+    form_alert_consent: "Please check the consent box to send your application.",
+    mini_title: "Leave your number, we'll call back",
+    mini_sub: "Enter your name and phone — we'll contact you today.",
+    mini_submit: "Send"
   }
 };
 
@@ -548,12 +591,13 @@ function setLang(lang){
   });
   document.getElementById('btn-pl').classList.toggle('active', lang==='pl');
   document.getElementById('btn-uk').classList.toggle('active', lang==='uk');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
   localStorage.setItem('ars-operis-lang', lang);
 }
 
 (function(){
   const saved = localStorage.getItem('ars-operis-lang');
-  if(saved === 'uk') setLang('uk');
+  if(saved === 'uk' || saved === 'en') setLang(saved);
 })();
 
 const navToggle = document.getElementById('nav-toggle');
@@ -580,6 +624,8 @@ document.querySelectorAll('.lead-form').forEach(function(formEl){
 
     const message = currentLang === 'uk'
       ? `Заявка з сайту Ars Operis:\nІм'я: ${name}\nТелефон: ${phone}${email ? `\nEmail: ${email}` : ''}${city ? `\nМісто: ${city}` : ''}`
+      : currentLang === 'en'
+      ? `Application from the Ars Operis website:\nName: ${name}\nPhone: ${phone}${email ? `\nEmail: ${email}` : ''}${city ? `\nCity: ${city}` : ''}`
       : `Zgłoszenie ze strony Ars Operis:\nImię: ${name}\nTelefon: ${phone}${email ? `\nE-mail: ${email}` : ''}${city ? `\nMiasto: ${city}` : ''}`;
 
     const noteEl = document.getElementById('form-note');
@@ -587,6 +633,8 @@ document.querySelectorAll('.lead-form').forEach(function(formEl){
 
     const subject = currentLang === 'uk'
       ? `Нова заявка з сайту Ars Operis — ${name}`
+      : currentLang === 'en'
+      ? `New application from the Ars Operis website — ${name}`
       : `Nowe zgłoszenie ze strony Ars Operis — ${name}`;
     const mailtoUrl = `mailto:biurokierowcow@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
 

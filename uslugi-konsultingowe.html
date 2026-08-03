@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ars Operis — Usługi Konsultingowe</title>
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-alt:#161616;
+    --gold:#ffffff;
+    --gold-soft:#d6d6d6;
+    --white:#f5f5f5;
+    --muted:#9a9a9a;
+    --whatsapp:#25D366;
+    --border:#2a2a2a;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    background:#0a0a0a;
+    border-bottom:1px solid #262626;
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+    gap:14px;position:relative;
+    padding:16px 24px;max-width:1100px;margin:0 auto;
+  }
+  .brand{
+    font-weight:800;letter-spacing:2px;font-size:clamp(1.4rem, 3vw, 2rem);
+    display:flex;flex-direction:column;line-height:1.1;
+    color:#f5f5f5;
+  }
+  .brand span{font-size:0.65rem;font-weight:500;letter-spacing:3px;color:#c9c9c9;text-transform:uppercase;}
+
+  .main-nav{display:flex;align-items:center;gap:30px;}
+  .main-nav a{
+    font-weight:600;font-size:0.92rem;color:#c2c2c2;
+    padding:6px 2px;border-bottom:2px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .main-nav a:hover{color:#fff;}
+  .main-nav a.active{color:#fff;border-bottom-color:#fff;}
+
+  .header-actions{display:flex;align-items:center;gap:14px;}
+
+  .nav-toggle{
+    display:none;background:none;border:1px solid #333;color:#f5f5f5;
+    width:38px;height:38px;border-radius:10px;
+    align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+  }
+
+  .lang-switch{display:flex;gap:6px;background:#1a1a1a;border:1px solid #333;border-radius:999px;padding:4px;}
+  .lang-switch button{
+    border:none;background:transparent;color:#b5b5b5;
+    font-weight:700;font-size:0.85rem;padding:6px 14px;border-radius:999px;cursor:pointer;
+    transition:all .2s ease;
+  }
+  .lang-switch button.active{background:#f5f5f5;color:#111;}
+
+  @media (max-width:860px){
+    .main-nav{
+      order:3;width:100%;display:none;flex-direction:column;align-items:flex-start;
+      gap:2px;padding-top:10px;border-top:1px solid #232323;
+    }
+    .main-nav.open{display:flex;}
+    .main-nav a{padding:10px 2px;width:100%;}
+    .nav-toggle{display:flex;}
+  }
+
+  .page-hero{background:#ffffff;color:#111111;padding:56px 0 40px;}
+  .page-hero .eyebrow{color:#3a3a3a;}
+  .page-hero h1{color:#111111;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;max-width:26ch;}
+  .page-hero p.lead{color:#333333;font-size:1.1rem;max-width:60ch;}
+  .eyebrow{
+    color:var(--gold);font-weight:700;letter-spacing:2px;font-size:0.8rem;
+    text-transform:uppercase;margin-bottom:14px;display:block;
+  }
+
+  section{padding:56px 0;}
+  .section-title{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;margin-bottom:8px;}
+  .section-sub{color:var(--muted);margin-bottom:32px;max-width:60ch;}
+  .divider{height:1px;background:var(--border);margin:0;}
+
+  .consulting{
+    background:var(--bg-alt);border:1px solid var(--border);border-radius:20px;
+    padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;
+    box-shadow:0 2px 18px rgba(0,0,0,0.4);
+  }
+  .consulting ul{margin-top:16px;padding-left:20px;color:var(--muted);}
+  .consulting li{margin-bottom:10px;}
+  .consulting .icon-big{font-size:3rem;text-align:center;}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .card{
+    background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;box-shadow:0 2px 14px rgba(0,0,0,0.35);
+  }
+  .card .icon{font-size:1.8rem;margin-bottom:14px;display:block;}
+  .card h3{font-size:1.05rem;margin-bottom:8px;font-weight:700;}
+  .card p{color:var(--muted);font-size:0.92rem;}
+
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 22px;border-radius:999px;font-weight:700;font-size:0.95rem;
+    transition:transform .15s ease, box-shadow .15s ease;
+    cursor:pointer;white-space:nowrap;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-call{background:#111111;color:#ffffff;box-shadow:0 6px 20px rgba(17,17,17,0.18);}
+  .btn-whatsapp{background:var(--whatsapp);color:#08210f;box-shadow:0 6px 20px rgba(37,211,102,0.25);}
+  .btn svg{width:20px;height:20px;flex-shrink:0;}
+
+  footer{border-top:1px solid var(--border);padding:36px 0;color:var(--muted);}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-contact{display:flex;gap:18px;flex-wrap:wrap;}
+  .footer-contact a{font-weight:700;color:var(--white);}
+
+  .float-whatsapp{
+    position:fixed;bottom:22px;right:22px;z-index:60;
+    background:var(--whatsapp);width:58px;height:58px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  }
+  .float-whatsapp svg{width:28px;height:28px;color:#08210f;}
+
+  @media (max-width:860px){
+    .cards{grid-template-columns:1fr;}
+    .consulting{grid-template-columns:1fr;padding:28px;}
+    .footer-inner{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="index.html">ARS OPERIS<span data-i18n="tagline">Biuro Kierowców</span></a>
+    <nav class="main-nav" id="main-nav">
+      <a href="index.html" data-i18n="nav_praca">Praca Kierowca</a>
+      <a href="uslugi-konsultingowe.html" class="active" data-i18n="nav_konsulting">Usługi Konsultingowe</a>
+      <a href="o-nas-kontakt.html" data-i18n="nav_onas">O nas i Kontakt</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-switch">
+        <button id="btn-pl" class="active" onclick="setLang('pl')">PL</button>
+        <button id="btn-uk" onclick="setLang('uk')">UA</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="cons_eyebrow">Konsulting · Ars Operis</span>
+    <h1 data-i18n="cons_title">Usługi konsultingowe dla firm i kierowców</h1>
+    <p class="lead" data-i18n="cons_sub">Wspieramy firmy i osoby indywidualne w rozwoju działalności transportowej — od zakładania floty po codzienne rozliczenia.</p>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="konsulting">
+  <div class="wrap">
+    <div class="consulting">
+      <div>
+        <h2 class="section-title" data-i18n="cons_h2">Czym się zajmujemy</h2>
+        <ul>
+          <li data-i18n="cons_li1">Doradztwo przy zakładaniu i prowadzeniu floty samochodowej</li>
+          <li data-i18n="cons_li2">Optymalizacja kosztów i rozliczeń dla kierowców i firm</li>
+          <li data-i18n="cons_li3">Wsparcie formalne przy współpracy z platformami Uber / Bolt / Free Now</li>
+          <li data-i18n="cons_li4">Indywidualne konsultacje biznesowe — umów się telefonicznie</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn-call" href="tel:+48600733799">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.25 1.01z"/></svg>
+            <span data-i18n="call_now">Zadzwoń: +48 600 733 799</span>
+          </a>
+          <a class="btn btn-whatsapp" href="https://wa.me/48600733799" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.55a9.9 9.9 0 004.91 1.28c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.16c-.24.68-1.4 1.3-1.93 1.35-.5.05-1.1.07-1.78-.11-.4-.1-.93-.3-1.6-.6-2.82-1.22-4.66-4.05-4.8-4.24-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.57-.35.76-.35h.55c.18 0 .42-.02.64.5.24.58.82 2 .89 2.14.07.14.11.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.28.71 1.18 1.53 1.92 1.05.95 1.94 1.25 2.21 1.39.28.14.44.12.6-.07.16-.19.68-.8.87-1.07.18-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.46.21.53.33.07.12.07.71-.17 1.39z"/></svg>
+            <span data-i18n="whatsapp_write">Napisz na WhatsApp</span>
+          </a>
+        </div>
+      </div>
+      <div class="icon-big">📈</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider"></div></div>
+
+<section id="dla-kogo">
+  <div class="wrap">
+    <h2 class="section-title" data-i18n="cons_for_title">Dla kogo</h2>
+    <p class="section-sub" data-i18n="cons_for_sub">Konsulting Ars Operis jest dopasowany zarówno do dużych firm, jak i pojedynczych kierowców.</p>
+    <div class="cards">
+      <div class="card">
+        <span class="icon">🚕</span>
+        <h3 data-i18n="cf1_h">Kierowcy indywidualni</h3>
+        <p data-i18n="cf1_p">Pomagamy rozliczać się z platformami i zoptymalizować koszty eksploatacji auta.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🏢</span>
+        <h3 data-i18n="cf2_h">Firmy transportowe</h3>
+        <p data-i18n="cf2_p">Wsparcie przy budowie i zarządzaniu flotą pojazdów oraz zespołem kierowców.</p>
+      </div>
+      <div class="card">
+        <span class="icon">📋</span>
+        <h3 data-i18n="cf3_h">Nowe działalności</h3>
+        <p data-i18n="cf3_p">Doradztwo formalne dla osób planujących wejście w branżę przewozu osób.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <div class="brand" style="margin-bottom:6px;">ARS OPERIS</div>
+      <div data-i18n="footer_tag">Biuro Kierowców · Trójmiasto</div>
+    </div>
+    <div class="footer-contact">
+      <a href="tel:+48600733799">📞 +48 600 733 799</a>
+      <a href="https://wa.me/48600733799" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<a class="float-whatsapp" href="https://wa.me/48600733799" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.55a9.9 9.9 0 004.91 1.28c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.16c-.24.68-1.4 1.3-1.93 1.35-.5.05-1.1.07-1.78-.11-.4-.1-.93-.3-1.6-.6-2.82-1.22-4.66-4.05-4.8-4.24-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07.99-2.35.26-.28.57-.35.76-.35h.55c.18 0 .42-.02.64.5.24.58.82 2 .89 2.14.07.14.11.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.16.28.71 1.18 1.53 1.92 1.05.95 1.94 1.25 2.21 1.39.28.14.44.12.6-.07.16-.19.68-.8.87-1.07.18-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.46.21.53.33.07.12.07.71-.17 1.39z"/></svg>
+</a>
+
+<script>
+const translations = {
+  pl: {
+    tagline: "Biuro Kierowców",
+    nav_praca: "Praca Kierowca",
+    nav_konsulting: "Usługi Konsultingowe",
+    nav_onas: "O nas i Kontakt",
+    cons_eyebrow: "Konsulting · Ars Operis",
+    cons_title: "Usługi konsultingowe dla firm i kierowców",
+    cons_sub: "Wspieramy firmy i osoby indywidualne w rozwoju działalności transportowej — od zakładania floty po codzienne rozliczenia.",
+    cons_h2: "Czym się zajmujemy",
+    cons_li1: "Doradztwo przy zakładaniu i prowadzeniu floty samochodowej",
+    cons_li2: "Optymalizacja kosztów i rozliczeń dla kierowców i firm",
+    cons_li3: "Wsparcie formalne przy współpracy z platformami Uber / Bolt / Free Now",
+    cons_li4: "Indywidualne konsultacje biznesowe — umów się telefonicznie",
+    call_now: "Zadzwoń: +48 600 733 799",
+    whatsapp_write: "Napisz na WhatsApp",
+    cons_for_title: "Dla kogo",
+    cons_for_sub: "Konsulting Ars Operis jest dopasowany zarówno do dużych firm, jak i pojedynczych kierowców.",
+    cf1_h: "Kierowcy indywidualni", cf1_p: "Pomagamy rozliczać się z platformami i zoptymalizować koszty eksploatacji auta.",
+    cf2_h: "Firmy transportowe", cf2_p: "Wsparcie przy budowie i zarządzaniu flotą pojazdów oraz zespołem kierowców.",
+    cf3_h: "Nowe działalności", cf3_p: "Doradztwo formalne dla osób planujących wejście w branżę przewozu osób.",
+    footer_tag: "Biuro Kierowców · Trójmiasto"
+  },
+  uk: {
+    tagline: "Бюро водіїв",
+    nav_praca: "Робота водія",
+    nav_konsulting: "Консалтингові послуги",
+    nav_onas: "Про нас і Контакт",
+    cons_eyebrow: "Консалтинг · Ars Operis",
+    cons_title: "Консалтингові послуги для компаній і водіїв",
+    cons_sub: "Підтримуємо компанії та приватних осіб у розвитку транспортного бізнесу — від створення автопарку до щоденних розрахунків.",
+    cons_h2: "Чим ми займаємось",
+    cons_li1: "Консультація щодо створення та управління автопарком",
+    cons_li2: "Оптимізація витрат і розрахунків для водіїв та компаній",
+    cons_li3: "Формальна підтримка співпраці з платформами Uber / Bolt / Free Now",
+    cons_li4: "Індивідуальні бізнес-консультації — домовтесь за телефоном",
+    call_now: "Дзвоніть: +48 600 733 799",
+    whatsapp_write: "Написати у WhatsApp",
+    cons_for_title: "Для кого",
+    cons_for_sub: "Консалтинг Ars Operis підходить як великим компаніям, так і окремим водіям.",
+    cf1_h: "Приватні водії", cf1_p: "Допомагаємо з розрахунками через платформи та оптимізацією витрат на авто.",
+    cf2_h: "Транспортні компанії", cf2_p: "Підтримка у створенні та управлінні автопарком і командою водіїв.",
+    cf3_h: "Нові напрямки бізнесу", cf3_p: "Формальні консультації для тих, хто планує вхід у сферу перевезень.",
+    footer_tag: "Бюро водіїв · Трьохмістя"
+  }
+};
+
+let currentLang = 'pl';
+
+function setLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(translations[lang][key]) el.textContent = translations[lang][key];
+  });
+  document.getElementById('btn-pl').classList.toggle('active', lang==='pl');
+  document.getElementById('btn-uk').classList.toggle('active', lang==='uk');
+  localStorage.setItem('ars-operis-lang', lang);
+}
+
+(function(){
+  const saved = localStorage.getItem('ars-operis-lang');
+  if(saved === 'uk') setLang('uk');
+})();
+
+const navToggle = document.getElementById('nav-toggle');
+const mainNav = document.getElementById('main-nav');
+if(navToggle){
+  navToggle.addEventListener('click', function(){
+    const isOpen = mainNav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+}
+</script>
+
+</body>
+</html>
